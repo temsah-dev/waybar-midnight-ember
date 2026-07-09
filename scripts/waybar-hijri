@@ -1,0 +1,42 @@
+#!/bin/zsh
+
+STATE_FILE="/tmp/waybar_date_state"
+[[ ! -f "$STATE_FILE" ]] && echo "greg" > "$STATE_FILE"
+STATE=$(cat "$STATE_FILE")
+
+# التبديل عند الضغط
+if [[ "$1" == "toggle" ]]; then
+    [[ "$STATE" == "greg" ]] && echo "hijri" > "$STATE_FILE" || echo "greg" > "$STATE_FILE"
+    pkill -RTMIN+1 waybar
+    exit 0
+fi
+
+TIME=$(date +'%I:%M %p')
+
+if [[ "$STATE" == "hijri" ]]; then
+    # ✅ timeout 5 عشان لو python3 أو hijri_converter اتعلقوا مش هيبلشوا الـ module
+    JSON_OUT=$(timeout 5 python3 -c "
+from hijri_converter import Gregorian
+import json
+h = Gregorian.today().to_hijri()
+months = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الثاني', 'جمادي الأول', 'جمادى الأخرة', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة']
+display_text = f'{h.day} {months[h.month-1]}'
+tooltip_text = f'السنة الهجرية: {h.year}'
+print(json.dumps({'text': display_text, 'tooltip': tooltip_text}))
+    " 2>/dev/null)
+
+    # ✅ fallback لو python3 اتعلق أو فشل — يحط الوقت بس من غير تاريخ هجري
+    if [[ -z "$JSON_OUT" ]]; then
+        echo "{\"text\": \"$TIME | 🌙 --\", \"tooltip\": \"⚠ خطأ في التقويم الهجري\"}"
+        exit 0
+    fi
+
+    TEXT=$(echo $JSON_OUT | jq -r .text)
+    TOOLTIP=$(echo $JSON_OUT | jq -r .tooltip)
+    echo "{\"text\": \"$TIME | 🌙 $TEXT\", \"tooltip\": \"$TOOLTIP\"}"
+
+else
+    G_DATE=$(date +'%d %b')
+    G_YEAR=$(date +'%Y')
+    echo "{\"text\": \"$TIME | 📅 $G_DATE\", \"tooltip\": \"السنة الميلادية: $G_YEAR\"}"
+fi

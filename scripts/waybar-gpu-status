@@ -1,0 +1,23 @@
+#!/bin/bash
+# ── Waybar GPU Status ────────────────────────────────────────
+# بيطلع JSON بـ text + tooltip فيه الـ mode الحالي
+
+# ✅ timeout 3 عشان supergfxctl ممكن يهنج لو الـ GPU بيتبدل
+mode=$(timeout 3 supergfxctl -g 2>/dev/null || echo "Unknown")
+
+# ✅ timeout 3 عشان nvidia-smi بيهنج لو الـ GPU في وضع Integrated
+smi=$(timeout 3 nvidia-smi --query-gpu=utilization.gpu,temperature.gpu \
+      --format=csv,noheader,nounits 2>/dev/null)
+
+if echo "$smi" | awk -F', ' '$1~/^[0-9]/{exit 0} {exit 1}'; then
+  usage=$(echo "$smi" | awk -F', ' '{print $1}')
+  temp=$(echo "$smi"  | awk -F', ' '{print $2}')
+  text="󰍹 ${usage}%"
+  tooltip="󰍹 GPU: ${usage}%  󰔀 ${temp}°C\n󰒓 Mode: ${mode}"
+else
+  text="󰍹 off"
+  tooltip="󰍹 GPU off\n󰒓 Mode: ${mode}"
+fi
+
+printf '{"text": "%s", "tooltip": "%s", "class": "%s"}\n' \
+  "$text" "$tooltip" "$(echo "$mode" | tr '[:upper:]' '[:lower:]')"

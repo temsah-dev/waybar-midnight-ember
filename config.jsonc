@@ -1,0 +1,438 @@
+{
+  // ============================================================
+  //  WAYBAR CONFIG — Midnight Ember Edition 🔥
+  // ============================================================
+  "reload_style_on_change": true,
+  "position":      "top",
+  "mod":           "dock",
+  "height":        27,
+  "margin-top":    2,
+  "margin-bottom": 2,
+  "margin-left":   5,
+  "margin-right":  5,
+
+  // ── Layout ──────────────────────────────────────────────────
+  "modules-left":   ["group/left1", "group/left2", "mpris"],
+  "modules-center": ["custom/asusctl", "custom/warp"],
+  "modules-right": [
+    "group/tray-expander",
+    "privacy",
+    "backlight",
+    "group/connection-stats",
+    "group/audio-stats",
+    "group/hw-stats",
+    "temperature",
+    "battery",
+    "custom/clock"
+  ],
+
+  // ── Groups ──────────────────────────────────────────────────
+  "group/left1": {
+    "orientation": "inherit",
+    "modules": [
+      "group/system-tools",
+      "custom/screenrecording-indicator",
+      "hyprland/submap",
+      "keyboard-state",
+      "hyprland/language"
+    ]
+  },
+
+  "group/left2": {
+    "orientation": "inherit",
+    "modules": ["hyprland/workspaces"]
+  },
+
+  // ── Drawer Groups ───────────────────────────────────────────
+  "group/tray-expander": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "tray-group-item"
+    },
+    "modules": ["custom/expand-icon", "tray"]
+  },
+
+  "group/hw-stats": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 450,
+      "children-class": "hw-stats-child",
+      "transition-left-to-right": false
+    },
+    "modules": ["cpu", "custom/gpu", "disk", "memory"]
+  },
+
+  "group/audio-stats": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 450,
+      "children-class": "audio-child",
+      "transition-left-to-right": false
+    },
+    "modules": ["pulseaudio", "pulseaudio#microphone"]
+  },
+
+  "group/connection-stats": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 450,
+      "children-class": "conn-child",
+      "transition-left-to-right": false
+    },
+    "modules": ["network", "bluetooth"]
+  },
+
+  "group/system-tools": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 450,
+      "children-class": "sys-child",
+      "transition-left-to-right": true
+    },
+    "modules": [
+      "idle_inhibitor",
+      "custom/notification-silencing-indicator",
+      "custom/updatespacman"
+    ]
+  },
+
+  // ── Workspaces ──────────────────────────────────────────────
+  "hyprland/workspaces": {
+    "on-click": "activate",
+    "format": "{icon}",
+    "format-icons": {
+      "1":  "I",
+      "2":  "II",
+      "3":  "III",
+      "4":  "IV",
+      "5":  "V",
+      "6":  "VI",
+      "7":  "VII",
+      "8":  "VIII",
+      "9":  "IX",
+      "10": "X"
+    },
+    "persistent-workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": []
+    }
+  },
+
+  // ── Hyprland Submap ──────────────────────────────────────────
+  "hyprland/submap": {
+    "format":     "󰌌 {}",
+    "max-length": 16,
+    "tooltip":    false
+  },
+
+  // ── Keyboard State ───────────────────────────────────────────
+  "keyboard-state": {
+    "capslock": true,
+    "format": "{icon}",
+    "format-icons": {
+      "locked":   "󰪛 CAPS",
+      "unlocked": ""
+    },
+    "tooltip": false
+  },
+
+  // ── Privacy ──────────────────────────────────────────────────
+  "privacy": {
+    "icon-spacing":        4,
+    "icon-size":           14,
+    "transition-duration": 250,
+    "modules": [
+      { "type": "screenshare", "tooltip": true, "tooltip-icon-size": 24 },
+      { "type": "audio-in",    "tooltip": true, "tooltip-icon-size": 24 }
+    ]
+  },
+
+  // ── MPRIS ────────────────────────────────────────────────────
+  "mpris": {
+    "format":               "{player_icon}  {dynamic}",
+    "format-paused":        "{player_icon}  {dynamic}",
+    "format-stopped":       "",
+    "dynamic-len":          28,
+    "dynamic-importance-order": ["title", "artist", "album"],
+    "player-icons": {
+      "default":   "󰎈",
+      "spotify":   "󰓇",
+      "firefox":   "󰈹",
+      "chromium":  "",
+      "brave":     "󰖟",
+      "vlc":       "󰕼",
+      "mpv":       "󰎁"
+    },
+    "status-icons": {
+      "playing": "󰐊",
+      "paused":  "󰏤",
+      "stopped": ""
+    },
+    "tooltip-format": "󰎈 {title}\n󰠃 {artist}\n󰀥 {album}",
+    "on-click":       "playerctl play-pause",
+    "on-click-right": "playerctl next",
+    "on-scroll-up":   "playerctl previous",
+    "on-scroll-down": "playerctl next"
+  },
+
+  // ── Window Title ─────────────────────────────────────────────
+  "hyprland/window": {
+    "format":          "{title}",
+    "max-length":      40,
+    "separate-outputs": true,
+    "rewrite": {
+      "":                          " 󰣇  Arch Linux ",
+      "(.*) - Brave":              " 󰖟  $1 ",
+      "(.*) - Brave Search":       " 󰖟  Brave ",
+      "(.*) - Google Chrome":      "   $1 ",
+      "(.*) - Chromium":           "   $1 ",
+      "(.*) - Visual Studio Code": "󰨞  $1 ",
+      "(.*) - VSCodium":           "󰨞  $1 ",
+      "(.*) - nvim":               "  $1 ",
+      "(.*) - kitty":              "  $1 ",
+      "(.*) - thunar":             "󰉋  $1 "
+    }
+  },
+
+  // ── Hardware Stats ───────────────────────────────────────────
+  "cpu": {
+    "interval":       10,
+    "format":         "󰍛 {usage:02}%",
+    "format-alt":     "󰍛 {load}GB",
+    "tooltip-format": "󰍛 CPU: {usage}%  Load: {load}",
+    "on-click-right": "kitty -e btop"
+  },
+
+  "memory": {
+    "interval":       30,
+    "format":         "󰾆 {used}GB",
+    "format-alt":     "󰾆 {percentage}%",
+    "tooltip":        true,
+    "tooltip-format": "󰾆 RAM: {used}GB / {total}GB\n󰾅 Swap: {swapUsed}GB / {swapTotal}GB",
+    "on-click-right": "kitty -e btop"
+  },
+
+  "disk": {
+    "interval":       60,
+    "format":         " 󰋊 {percentage_used}%",
+    "format-alt":     " 󰋊 {free}",
+    "tooltip":        true,
+    "tooltip-format": " 󰋊 {path}\n  Used: {used}\n  Free: {free} / {total}",
+    "on-click-right": "kitty -e btop",
+    "path":           "/"
+  },
+
+  // ── GPU ── ✅ timeout اتعالج في السكريبت نفسه ────────────────
+  "custom/gpu": {
+    "exec":        "~/.local/bin/waybar-gpu-status",
+    "return-type": "json",
+    "interval":    30,
+    "on-click":       "~/.local/bin/waybar-gpu-menu",
+    "on-click-right": "kitty --class=dotfiles-floating -e nvtop",
+    "tooltip":     true
+  },
+
+  "temperature": {
+    "interval":         30,
+    "thermal-zone":     0,
+    "hwmon-path": [
+      "/sys/class/hwmon/hwmon1/temp1_input",
+      "/sys/class/thermal/thermal_zone0/temp"
+    ],
+    "critical-threshold": 80,
+    "format":           "{icon} {temperatureC}°C",
+    "format-critical":  "󱃂 {temperatureC}°C",
+    "format-icons":     ["󰔄", "󰔃", "󰔀"],
+    "tooltip":          true,
+    "tooltip-format":   "{icon} Temp: {temperatureC}°C",
+    "on-click-right":   "kitty --class=dotfiles-floating -e nvtop"
+  },
+
+  // ── Connectivity ─────────────────────────────────────────────
+  "network": {
+    "interval":                15,
+    "format-wifi":             "󰤨 {essid}",
+    "format-ethernet":         "󰈀 Wired",
+    "format-disconnected":     "󰤭",
+    "format-alt":              "󰤨 {signalStrength}%  󰇚 {bandwidthDownBytes}",
+    "tooltip-format-wifi":     "󰤨 {essid}  {frequency} GHz\n󰇚 {bandwidthDownBytes}  󰕒 {bandwidthUpBytes}",
+    "tooltip-format-ethernet": "󰈀 {ifname}\n󰇚 {bandwidthDownBytes}  󰕒 {bandwidthUpBytes}",
+    "tooltip-format-disconnected": "󰤭 Disconnected",
+    "on-click-right":                "kitty --class=dotfiles-floating -e nmtui"
+  },
+
+  "bluetooth": {
+    "format":                    "󰂯",
+    "format-disabled":           "󰂲",
+    "format-off":                "󰂲",
+    "format-connected":          "󰂱 {device_alias}",
+    "format-connected-battery":  "󰂱 {device_alias} {device_battery_percentage}%",
+    "tooltip-format":            "󰂯 {controller_alias}\n󰂱 {num_connections} connected",
+    "on-click":                  "blueman-manager"
+  },
+
+  // ── Audio ────────────────────────────────────────────────────
+  "pulseaudio": {
+    "format":       "{icon} {volume}%",
+    "format-muted": "󰝟",
+    "format-icons": {
+      "headphone":  "󰋋",
+      "hands-free": "󰋎",
+      "headset":    "󰋎",
+      "phone":      "󰏲",
+      "portable":   "󰏲",
+      "car":        "󰄋",
+      "default":    ["󰕿", "󰖀", "󰕾"]
+    },
+    "on-click":       "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-click-right": "pavucontrol",
+    "on-scroll-up":   "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-",
+    "scroll-step":    1,
+    "tooltip":        true,
+    "tooltip-format": "󰋋 {desc}\n󰕾 {volume}%"
+  },
+
+  "pulseaudio#microphone": {
+    "format":              "{format_source}",
+    "format-source":       "󰍬 {volume}%",
+    "format-source-muted": "󰍭",
+    "on-click":            "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+    "on-click-right":      "pavucontrol -t 4",
+    "on-scroll-up":        "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 1%+",
+    "on-scroll-down":      "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 1%-",
+    "tooltip":             true,
+    "tooltip-format":      "󰍬 {source_desc}"
+  },
+
+  // ── Display ──────────────────────────────────────────────────
+  "backlight": {
+    "device":         "nvidia_wmi_ec_backlight",
+    "format":         "{icon} {percent}%",
+    "format-icons":   ["󰃞", "󰃟", "󰃝", "󰃠"],
+    "on-scroll-up":   "brightnessctl set 1%+",
+    "on-scroll-down": "brightnessctl set 1%-",
+    "tooltip-format": "󰃠 Brightness: {percent}%"
+  },
+
+  // ── Battery ──────────────────────────────────────────────────
+  "battery": {
+    "states": {
+      "good":     80,
+      "warning":  30,
+      "critical": 15
+    },
+    "interval":        30,
+    "format":          "{icon} {capacity}%",
+    "format-charging": "󱐋 {capacity}%",
+    "format-full":     "󰁹 Full",
+    "format-plugged":  "󰚥 {capacity}%",
+    "format-alt":      "{icon} {time}",
+    "format-icons":    ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "tooltip":         true,
+    "tooltip-format":  "{timeTo}\n󱐋 {power}W"
+  },
+
+  // ── Clock ── ✅ interval 30 + timeout في السكريبت ────────────
+  "custom/clock": {
+    "exec":        "~/.local/bin/waybar-hijri",
+    "return-type": "json",
+    "interval":    30,
+    "format":      "{}",
+    "on-click":    "~/.local/bin/waybar-hijri toggle",
+    "signal":      1
+  },
+
+  // ── Language ────────────────────────────────────────────────
+  "hyprland/language": {
+    "format":        "{}",
+    "format-en":     "󰌌 EN",
+    "format-ar":     "󰌌 AR",
+    "keyboard-name": "at-translated-set-2-keyboard",
+    "on-click":      "hyprctl switchxkblayout at-translated-set-2-keyboard next",
+    "tooltip":       true,
+    "tooltip-format":"󰌌 Layout: {}"
+  },
+
+  // ── ASUS Profile ── ✅ أضفنا timeout 3 ───────────────────────
+  "custom/asusctl": {
+    "exec":        "profile=$(timeout 3 asusctl profile get 2>/dev/null | awk 'NR==1{print $NF}'); profile=${profile:-Unknown}; echo \"{\\\"text\\\":\\\"󰈐 $profile\\\", \\\"class\\\":\\\"$profile\\\", \\\"tooltip\\\":\\\"󰈐 ASUS Profile: $profile\\\"}\"",
+    "return-type": "json",
+    "interval":    29,
+    "on-click":    "asusctl profile next",
+    "on-click-right": "rog-control-center",
+    "tooltip":     true
+  },
+
+  // ── VPN Warp ── ✅ interval 10 + timeout 3 ───────────────────
+  "custom/warp": {
+    "exec": "timeout 3 bash -c 'if warp-cli status 2>/dev/null | grep -q \"Connected\"; then echo \"{\\\"text\\\": \\\"󰦝  WARP\\\", \\\"class\\\": \\\"connected\\\", \\\"tooltip\\\": \\\"Cloudflare WARP: Connected\\\"}\"; else echo \"{\\\"text\\\": \\\"󰦞  OFF\\\", \\\"class\\\": \\\"disconnected\\\", \\\"tooltip\\\": \\\"Cloudflare WARP: Disconnected\\\"}\"; fi'",
+    "return-type": "json",
+    "interval":    10,
+    "on-click":       "warp-cli connect",
+    "on-click-right": "warp-cli disconnect",
+    "tooltip":        true
+  },
+
+  // ── System Tools ─────────────────────────────────────────────
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated":   "󰒳",
+      "deactivated": "󰒲"
+    },
+    "tooltip-format-activated":   "󰒳 Idle Inhibitor: Active",
+    "tooltip-format-deactivated": "󰒲 Idle Inhibitor: Inactive"
+  },
+
+  "custom/notification-silencing-indicator": {
+    "interval":    1,
+    "tooltip":     false,
+    "format":      "{icon}",
+    "format-icons": {
+      "active":   "<span color='#E86030'>󰂛</span>",
+      "inactive": "󰂚"
+    },
+    "return-type": "json",
+    "exec":        "echo \"{\\\"alt\\\": \\\"$(dunstctl is-paused | grep -q 'true' && echo 'active' || echo 'inactive')\\\"}\"",
+    "on-click":       "dunstctl set-paused toggle",
+    "on-click-right": "dunstctl history-pop"
+  },
+
+  // ── Updates ── ✅ timeout 20 على checkupdates + yay ──────────
+  "custom/updatespacman": {
+    "format":      "{} {icon}",
+    "return-type": "json",
+    "format-icons": {
+      "has-updates": "󰏖",
+      "updated":     "󰏖"
+    },
+    "exec": "timeout 20 bash -c 'updates=$(checkupdates 2>/dev/null | wc -l); aur=$(timeout 15 yay -Qua 2>/dev/null | wc -l); total=$((updates + aur)); if [ \"$total\" -gt 0 ]; then echo \"{\\\"text\\\": \\\"$total\\\", \\\"alt\\\": \\\"has-updates\\\", \\\"tooltip\\\": \\\"󰮯 Pacman: $updates\\n󰒓 AUR: $aur\\\"}\"; else echo \"{\\\"text\\\": \\\"\\\", \\\"alt\\\": \\\"updated\\\"}\"; fi'",
+    "interval": 1800,
+    "on-click": "kitty -e yay -Syu"
+  },
+
+  "custom/screenrecording-indicator": {
+    "interval":    2,
+    "exec":        "pgrep -x wf-recorder && echo '{\"class\": \"active\", \"text\": \"󰑋 REC\"}' || echo '{\"class\": \"\", \"text\": \"\"}'",
+    "return-type": "json",
+    "on-click":    "killall -s SIGINT wf-recorder || wf-recorder -f ~/Videos/Recordings/rec_$(date +%Y-%m-%d_%H-%M-%S).mp4",
+    "tooltip":     true,
+    "tooltip-format": "󰑋 Click to Start/Stop Recording"
+  },
+
+  // ── Tray ─────────────────────────────────────────────────────
+  "custom/expand-icon": {
+    "format":  "<span color='#5A9AE0'> 󰄝 </span>",
+    "tooltip": false
+  },
+
+  "tray": {
+    "icon-size": 14,
+    "spacing":   10
+  }
+}

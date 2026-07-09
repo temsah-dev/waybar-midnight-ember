@@ -1,0 +1,39 @@
+#!/bin/bash
+# ── Waybar GPU Mode Menu — Midnight Ember ────────────────────
+
+make_theme() {
+  local lines=$1 width=$2
+  echo "
+window       { width: ${width}px; border-radius: 14px; background-color: #06080F; border: 2px; border-color: #E86030; }
+mainbox      { padding: 10px; background-color: transparent; }
+inputbar     { padding: 6px 12px; background-color: #100502; border-radius: 10px; border: 1px; border-color: #C03A10; margin: 0 0 8px 0; }
+prompt       { text-color: #F88844; }
+entry        { text-color: #FFE8C8; placeholder-color: #3A1808; }
+listview     { lines: ${lines}; columns: 1; scrollbar: false; background-color: transparent; spacing: 4px; }
+element      { padding: 8px 14px; border-radius: 10px; background-color: #0E0301; border: 1px; border-color: #1A0A04; }
+element selected      { background-color: #C03A10; border: 1px; border-color: #FFA840; }
+element-text          { text-color: #D0A870; vertical-align: 0.5; }
+element-text selected { text-color: #FFD060; }
+"
+}
+
+choice=$(printf "Integrated\nHybrid\nAsusMuxDgpu" | \
+  rofi -no-config -dmenu -p "GPU Mode" -theme-str "$(make_theme 3 220)")
+
+[ -z "$choice" ] && exit 0
+
+action=$(printf "Copy to clipboard\nOpen in Terminal" | \
+  rofi -no-config -dmenu -p "$choice" -theme-str "$(make_theme 2 240)")
+
+[ -z "$action" ] && exit 0
+
+case "$action" in
+  "Copy to clipboard")
+    echo -n "$choice" | wl-copy
+    notify-send -t 2000 "GPU Menu" "Copied: $choice"
+    ;;
+  "Open in Terminal")
+    kitty --title "GPU Mode" -e bash -c \
+      "echo '$ supergfxctl -m $choice'; supergfxctl -m $choice; echo; read -p 'Press Enter to close...'"
+    ;;
+esac
