@@ -101,8 +101,9 @@ Colors live at the top of `style.css` as GTK `@define-color` variables — chang
 ```
 
 ## 📸 Screenshots
+<img width="1920" height="37" alt="image" src="https://github.com/user-attachments/assets/b188e580-c2f2-44dc-b4bf-09ca573a3e46" />
 
-_Add a screenshot of your bar here — e.g. `assets/preview.png` — and reference it at the top of this README._
+<img width="1918" height="34" alt="2026-07-09_06-11" src="https://github.com/user-attachments/assets/c7193129-51da-441c-877c-4e1a1bdd6195" />
 
 ## 📄 License
 
