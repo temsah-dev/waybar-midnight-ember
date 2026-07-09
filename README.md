@@ -44,7 +44,7 @@ A dark, ember-toned [Waybar](https://github.com/Alexays/Waybar) configuration bu
 ## 🚀 Installation
 
 ```bash
-git clone https://github.com/<your-username>/waybar-midnight-ember.git
+git clone https://github.com/temsah-dev/waybar-midnight-ember.git
 cd waybar-midnight-ember
 ./install.sh
 ```
